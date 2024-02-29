@@ -1,20 +1,22 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Downloads and saves the data from NASA API
+# Author: Rohan Alexander
+# Date: 29 February 2024
+# Contact: luca.carnegie@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Any other information needed?
 
 
 #### Workspace setup ####
-library(opendatatoronto)
-library(tidyverse)
-# [...UPDATE THIS...]
+library(httr)
+library(knitr)
+
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
+NASA <- 
+  GET("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&date=2024-02-29")
+
+content(NASA)
 
 
 
