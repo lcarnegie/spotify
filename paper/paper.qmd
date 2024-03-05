@@ -37,17 +37,56 @@ library(xml2)
 ```
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
 beyonce <- 
   readRDS(here::here("data/raw_data/beyonce.rds"))
+
+fifth_harmony <- 
+  readRDS(here::here("data/raw_data/fifth_harmony.rds"))
 ```
 
 
 # Introduction
 
-```{r}
+
+
+# Data {#sec-data}
+
+## Beyoncé
+
+```{r avg-danceability}
+#| label: tbl-beyonce
+#| tbl-cap: Average Danceability of Beyonce Albums
+#| echo: false
+#| warning: false
+#| message: false
+
+
+beyonce <- as_tibble(beyonce)
+ 
+beyonce |>
+  filter(album_release_date_precision == "day") |> 
+  mutate(album_release_date = ymd(album_release_date)) |>
+  summarize(ave_danceability = mean(danceability), .by = "album_name") |> 
+  knitr::kable(
+    col.names = c("Album", "Average danceability"),
+    digits = 3,
+    booktabs = TRUE,
+    linesep = ""
+  )
+
+
+```
+
+```{r timeline}
 #| label: fig-beyonce
 #| fig-cap: Danceability of Beyonce Songs  over time
 #| echo: false
+#| warning: false
+#| message: false
 
 beyonce <- as_tibble(beyonce)
 
@@ -66,26 +105,32 @@ beyonce |>
   
 ```
 
+## Fifth Harmony and Camila Cabello
 
-```{r}
-beyonce <- as_tibble(beyonce)
- 
-beyonce |>
-  filter(album_release_date_precision == "day") |> 
+```{r valence-timeline}
+#| label: fig-fifth
+#| fig-cap: Valence of Fifth Harmony albums over time
+#| echo: false
+#| warning: false
+#| message: false
+
+
+fifth_harmony <- as_tibble(fifth_harmony)
+
+fifth_harmony |>
+  filter(album_name %in% c("Reflection", "7/27 (Deluxe)", "Fifth Harmony")) |> 
   mutate(album_release_date = ymd(album_release_date)) |>
-  summarize(ave_danceability = mean(danceability), .by = "album_name") |> 
-  knitr::kable(
-    col.names = c("Album", "Average danceability"),
-    digits = 3,
-    booktabs = TRUE,
-    linesep = ""
-  )
-
+  filter(album_release_date != "2017-10-29") |> 
+  ggplot(aes(x = album_name, y = valence)) +
+  geom_point(alpha = 0.5) +
+  theme_minimal() +
+  labs(x = "Album",
+       y = "Valence")
 
 ```
 
+We see that the valence (read: happiness) of Fifth Harmony generally went up after Camila Cabello left the group. 
 
-# Data {#sec-data}
 
 
 \newpage

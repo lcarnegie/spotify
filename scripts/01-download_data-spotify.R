@@ -17,6 +17,9 @@ library(spotifyr)
 beyonce <- get_artist_audio_features("beyonce")
 saveRDS(beyonce, "data/raw_data/beyonce.rds")
 
+fifth_harmony <- get_artist_audio_features("fifth harmony")
+saveRDS(fifth_harmony, "data/raw_data/fifth_harmony.rds")
+
 
 
 
